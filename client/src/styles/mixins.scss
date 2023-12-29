@@ -1,0 +1,64 @@
+@mixin flex($x: center, $y: center, $dir: row, $wrap: nowrap, $gap: 0) {
+    display: flex;
+    justify-content: $x;
+    align-items: $y;
+    flex-direction: $dir;
+    flex-wrap: $wrap;
+    gap: $gap;
+}
+
+@mixin loader() {
+    .loader {
+        animation: rotate 1s infinite cubic-bezier(0.1, 0, 0.75, 1);
+    }
+
+    @keyframes rotate {
+        from {
+            rotate: 0deg;
+        }
+
+        to {
+            rotate: 360deg;
+        }
+    }
+}
+
+@mixin tooltip() {
+    .tooltip {
+        position: absolute;
+        top: 120%;
+        left: 50%;
+        padding: 4px 16px;
+        background-color: $fg-1;
+        box-shadow: 0 0 5px $fg;
+        border-radius: 4px;
+        text-align: center;
+        text-wrap: nowrap;
+        font-size: 12px;
+        user-select: none;
+        pointer-events: none;
+        transform: translateX(-50%);
+        backdrop-filter: blur(5px);
+        transition: 0.2s;
+        opacity: 0;
+        visibility: hidden;
+
+        // &::after {
+        //     content: '';
+        //     position: absolute;
+        //     bottom: 100%;
+        //     left: 50%;
+        //     border-width: 7px;
+        //     border-style: solid;
+        //     transform: translateX(-50%);
+        //     border-color: transparent transparent $fg-1 transparent;
+        // }
+    }
+
+    &:hover {
+        .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}

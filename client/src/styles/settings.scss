@@ -1,0 +1,38 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+
+.form {
+    flex-grow: 1;
+
+    .title {
+        color: $mid-75;
+        font-size: 28px;
+    }
+
+    .field {
+        margin-top: 15px;
+    }
+
+    .container {
+        @include flex($gap: 25px);
+
+        .buttons {
+            @include flex(flex-start, $gap: 30px);
+            flex-basis: 80%;
+            margin-top: 45px;
+        }
+
+        .error {
+            flex-basis: 80%;
+            padding: 2px 0;
+            color: $red;
+            text-shadow: 0 0 5px $fg-2;
+            font-size: 14px;
+        }
+
+        .label {
+            order: -1;
+            flex-basis: 20%;
+        }
+    }
+}

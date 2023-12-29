@@ -1,0 +1,70 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+
+.button {
+    @include flex($gap: 5px);
+    padding: 6px 16px;
+    color: $primary-8;
+    background-color: $primary-01;
+    border: 1px solid $primary-8;
+    border-radius: 4px;
+    text-wrap: nowrap;
+    transition: 0.2s;
+
+    &:hover {
+        color: $primary;
+        background-color: $primary-05;
+        border: 1px solid $primary;
+    }
+
+    &:active {
+        transition: 0s;
+        background-color: $primary-1;
+    }
+
+    &.white {
+        color: $fg-8;
+        background-color: $fg-01;
+        border: solid 1px $fg-8;
+
+        &:hover {
+            color: $fg;
+            background-color: $fg-05;
+            border: solid 1px $fg;
+        }
+
+        &:active {
+            background-color: $fg-1;
+        }
+    }
+
+    &.danger {
+        color: $fg-8;
+        background-color: $red-01;
+        border: solid 1px $red-8;
+
+        &:hover {
+            color: $fg;
+            background-color: $red-05;
+            border: solid 1px $red;
+        }
+
+        &:active {
+            background-color: $red-1;
+        }
+    }
+
+    .loader {
+        animation: spin 0.5s infinite linear;
+
+        @keyframes spin {
+            from {
+                rotate: 0deg;
+            }
+
+            to {
+                rotate: 360deg;
+            }
+        }
+    }
+}

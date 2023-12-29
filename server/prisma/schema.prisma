@@ -1,0 +1,64 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider     = "postgresql"
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
+}
+
+model Article {
+    id          Int      @id @default(autoincrement())
+    title       String
+    content     String
+    preview     String?
+    previewHash String?
+    tags        String[]
+    authorName  String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    author      User     @relation(fields: [authorName], references: [name], onDelete: Cascade)
+
+    @@index([authorName], map: "author")
+}
+
+model User {
+    id        Int       @id @default(autoincrement())
+    name      String    @unique(map: "name")
+    email     String    @unique(map: "email")
+    password  String
+    image     String?   @default("/media/avatar.svg")
+    imageHash String?
+    birth     DateTime?
+    bio       String?
+    verified  Boolean   @default(false)
+    provider  String    @default("credentials")
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    articles  Article[]
+    messages  Message[]
+    chats     Chat[]    @relation("ChatToUser")
+}
+
+model Chat {
+    id        Int       @id @default(autoincrement())
+    name      String
+    image     String?   @default("/media/chat.svg")
+    imageHash String?
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    messages  Message[]
+    members   User[]    @relation("ChatToUser")
+}
+
+model Message {
+    id         Int      @id @default(autoincrement())
+    text       String
+    chatId     Int
+    authorName String
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+    author     User     @relation(fields: [authorName], references: [name], onDelete: Cascade)
+    chat       Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+}

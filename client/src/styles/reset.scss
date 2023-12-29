@@ -1,0 +1,81 @@
+@import '@/styles/vars';
+
+*,
+::after,
+::before {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    text-transform: none;
+    list-style: none;
+    font-family: inherit;
+    font-style: normal;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: inherit;
+    box-sizing: border-box;
+    background-color: transparent;
+    cursor: default;
+}
+
+html,
+body {
+    color: $fg;
+    background-color: $bg;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    scroll-behavior: smooth;
+}
+
+a,
+button {
+    cursor: pointer;
+
+    >* {
+        pointer-events: none;
+    }
+}
+
+input[type='text'],
+input[type='password'],
+textarea {
+    cursor: text;
+}
+
+.main {
+    min-height: calc(100vh - 60px - 60px);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: $mid-25;
+    border-radius: 8px;
+
+    &:hover {
+        background-color: $mid;
+    }
+
+    &:active {
+        background-color: $mid-75;
+    }
+}
+
+::-webkit-scrollbar-corner {
+    background-color: $bg;
+}
+
+::selection {
+    background-color: $primary;
+    color: $fg;
+}
