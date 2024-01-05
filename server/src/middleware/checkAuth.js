@@ -3,15 +3,16 @@ import jwt from 'jsonwebtoken';
 export default (req, res, next) => {
     const token = req.headers.authorization;
 
-    if (token) {
-        try {
-            const decoded = jwt.verify(token, process.env.JWT_KEY);
-            req.userId = decoded.id;
-            next();
-        } catch (err) {
-            res.status(403).json({ message: err.message });
+    if (!token) return res.status(401).json({ message: 'Unauthorized' });
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_KEY);
+        if (req.params.name && req.params.name !== decoded.name) throw new Error();
+        req.userName = decoded.name;
+        next();
+    } catch (err) {
+        if (err.message === 'jwt expired') {
+            return res.status(419).json({ message: 'jwt expired' });
         }
-    } else {
-        res.status(403).json({ message: 'No token provided!' });
+        res.status(403).json({ message: 'Forbidden' });
     }
 };

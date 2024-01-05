@@ -1,5 +1,7 @@
 <template>
-    <Loader>Authenticating...</Loader>
+    <main class='main'>
+        <MyLoader>Authenticating...</MyLoader>
+    </main>
 </template>
 
 <script setup>
@@ -10,6 +12,6 @@ import { onMounted } from 'vue';
 const route = useRoute();
 
 onMounted(() => {
-    useOAuth('/oauth/google', route.query.code);
+    useOAuth('/oauth/github', route.query.code);
 });
 </script>

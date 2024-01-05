@@ -3,40 +3,49 @@
 
 .wrapper {
     @include flex($dir: column);
-    min-height: calc(100vh - 60px - 60px);
+    flex-grow: 1;
     background-image: radial-gradient($primary-1 0%, $bg 65%);
+
+    .form {
+        @include flex($wrap: wrap);
+        max-width: 400px;
+        margin: 0 20px;
+        padding: 35px 50px;
+        background-image: linear-gradient(45deg, $fg-05, $fg-1);
+        border-radius: 4px;
+
+        .title {
+            flex-basis: 100%;
+            color: $primary;
+            text-align: start;
+            font-size: 36px;
+            font-weight: 600;
+        }
+
+        .my-input-wrapper {
+            margin-top: 25px;
+        }
+
+        .my-button {
+            flex-basis: 100%;
+            margin-top: 25px;
+        }
+    }
 }
 
-.form {
-    @include flex($wrap: wrap);
-    max-width: 400px;
-    margin: 0 20px;
-    padding: 35px 50px;
-    background-image: linear-gradient(45deg, $fg-05, $fg-1);
-    border-radius: 4px;
-}
+@media screen and (max-width: 500px) {
+    .wrapper .form {
+        flex-grow: 1;
+        max-width: none;
+        align-content: flex-start;
+        margin: 0;
 
-.title {
-    flex-basis: 100%;
-    color: $primary;
-    text-align: start;
-    font-size: 36px;
-    font-weight: 600;
-}
+        .my-input-wrapper {
+            margin-top: 35px;
+        }
 
-.field {
-    margin-top: 25px;
-}
-
-.button {
-    margin-top: 25px;
-    width: 100%;
-}
-
-.error {
-    width: 100%;
-    padding: 2px 8px;
-    color: $red;
-    text-shadow: 0 0 5px $fg-2;
-    font-size: 14px;
+        .my-button {
+            margin-top: 45px;
+        }
+    }
 }

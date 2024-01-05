@@ -1,24 +1,22 @@
 <template>
-    <div class='main error'>
-        <h1 class='title'>Something went wrong</h1>
-    </div>
+    <main class='forbidden'>
+        <h1 class='title'>
+            Forbidden
+        </h1>
+    </main>
 </template>
-
-<script>
-export default {
-    name: 'Error',
-};
-</script>
 
 <style lang='scss' scoped>
 @import '@/styles/vars';
 @import '@/styles/mixins';
 
-.error {
+.forbidden {
     @include flex();
+    height: 100vh;
 
     .title {
         font-size: 24px;
+        color: $mid-75;
     }
 }
 </style>

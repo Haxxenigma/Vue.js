@@ -1,6 +1,7 @@
 import { hash, compare } from 'bcrypt';
 import { del } from '../../utils/imgur.js';
 import prisma from '../../utils/prisma.js';
+import getToken from '../../utils/getToken.js';
 
 export const updateUser = async (req, res) => {
     try {
@@ -41,7 +42,9 @@ export const updateUser = async (req, res) => {
             },
         });
 
-        res.json({ message: 'You have successfully updated your profile settings' });
+        let token = null;
+        if (req.body.name !== req.params.name) token = getToken(req.body.name);
+        res.json({ token, message: 'You have successfully updated your profile settings' });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'User update was unsuccessful' });
@@ -107,9 +110,9 @@ export const passwordUpdate = async (req, res) => {
 export const getUser = async (req, res) => {
     try {
         const user = await prisma.user.findUnique({
-            where: req.params.name ?
-                { name: req.params.name } :
-                { id: parseInt(req.userId) },
+            where: {
+                name: req.params.name ? req.params.name : req.userName
+            },
         });
 
         if (!user) {

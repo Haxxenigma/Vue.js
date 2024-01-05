@@ -9,7 +9,6 @@
     outline: none;
     text-decoration: none;
     text-transform: none;
-    list-style: none;
     font-family: inherit;
     font-style: normal;
     font-size: 16px;
@@ -45,6 +44,8 @@ textarea {
 }
 
 .main {
+    display: flex;
+    flex-direction: column;
     min-height: calc(100vh - 60px - 60px);
     max-width: 1000px;
     margin: 0 auto;
@@ -76,6 +77,6 @@ textarea {
 }
 
 ::selection {
-    background-color: $primary;
+    background-color: $primary-5;
     color: $fg;
 }

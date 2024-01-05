@@ -11,7 +11,7 @@
     </footer>
 </template>
 
-<style lang='scss'>
+<style lang='scss' scoped>
 @import '@/styles/vars';
 @import '@/styles/mixins';
 

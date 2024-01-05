@@ -1,7 +1,7 @@
 <template>
-    <div class='main settings' v-if='$store.state.userData'>
+    <main class='main settings'>
         <button class='toggle' @click='isExpanded = true'>
-            <List size='36' />
+            <ChevronRight size='24' />
         </button>
         <nav class='nav' :class='{ active: isExpanded }' @click='isExpanded = false'>
             <h1 class='title'>Settings</h1>
@@ -17,16 +17,20 @@
                 </RouterLink>
             </div>
         </nav>
-        <RouterView />
-    </div>
-    <Loader v-else />
+        <RouterView v-if='$store.state.user' />
+        <MyLoader v-else />
+    </main>
 </template>
 
 <script setup>
-import { List, Settings, ShieldCheck, AlertCircle } from 'lucide-vue-next';
+import { ChevronRight, Settings, ShieldCheck, AlertCircle } from 'lucide-vue-next';
+import { useAuth } from '@/composables/useAuth';
 import { ref } from 'vue';
 
 const isExpanded = ref(false);
+const isAuth = ref(false);
+
+isAuth.value = useAuth(isAuth.value, { redirectIfFail: true });
 </script>
 
 <style lang='scss' scoped>
@@ -34,14 +38,16 @@ const isExpanded = ref(false);
 @import '@/styles/mixins';
 
 .settings {
-    @include flex(flex-start, flex-start);
+    display: flex;
+    flex-direction: row;
     padding: 15px;
 
     .toggle {
         @include flex();
         display: none;
         margin: 5px;
-        padding: 2px;
+        color: $mid-75;
+        background-color: $fg-05;
         border-radius: 4px;
         transition: 0.2s;
 
@@ -70,7 +76,7 @@ const isExpanded = ref(false);
 
         .links {
             @include flex(flex-start, $dir: column, $gap: 6px);
-            margin: 12px 6px;
+            padding: 12px 6px;
 
             .link {
                 @include flex(flex-start, $gap: 5px);
@@ -133,10 +139,10 @@ const isExpanded = ref(false);
             right: 0;
             bottom: 0;
             z-index: 1;
-            transition: 0.2s;
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
+            transition: 0.2s;
 
             &.active {
                 opacity: 1;
@@ -146,13 +152,11 @@ const isExpanded = ref(false);
 
             .title {
                 background-color: $bg-8;
-                padding: 0 20px;
                 width: 240px;
             }
 
             .links {
                 background-color: $bg-8;
-                padding: 0 20px;
                 width: 240px;
                 height: 100%;
             }

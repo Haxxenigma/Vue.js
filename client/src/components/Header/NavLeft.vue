@@ -1,11 +1,12 @@
 <template>
-    <div class='navLeft'>
+    <div class='nav-left'>
         <button class='toggle' @click='isExpanded = !isExpanded'>
-            <Menu class='menu' v-if='!isExpanded' size='28' />
+            <Menu class='menu' v-if='!isExpanded' size='32' />
             <X class='xmark' v-if='isExpanded' size='28' />
         </button>
-        <div class='mobLinks' v-if='isExpanded' @click='isExpanded = false'>
-            <RouterLink v-for='link in $store.state.userData ? links.slice(2) : links' :to='link.path' class='link'>
+        <div class='mob-links' v-if='isExpanded' @click='isExpanded = false'>
+            <RouterLink v-for='link in $store.state.user ? links.slice(2) : links' :to='link.path' :key='link.path'
+                class='link'>
                 {{ link.label }}
             </RouterLink>
         </div>
@@ -13,7 +14,7 @@
             <img src='@/assets/logo.png' />
         </RouterLink>
         <div class='links'>
-            <RouterLink v-for='link in links.slice(2)' :to='link.path' class='link'>
+            <RouterLink v-for='link in links.slice(2)' :to='link.path' :key='link.path' class='link'>
                 {{ link.label }}
             </RouterLink>
         </div>
@@ -54,7 +55,7 @@ const isExpanded = ref(false);
 @import '@/styles/vars';
 @import '@/styles/mixins';
 
-.navLeft {
+.nav-left {
     @include flex();
 
     .toggle {
@@ -91,21 +92,21 @@ const isExpanded = ref(false);
         }
     }
 
-    .mobLinks {
+    .mob-links {
         @include flex(flex-start, $dir: column);
         position: absolute;
-        width: 100%;
         height: calc(100vh - 60px);
         padding: 0 20px;
         top: 60px;
         left: 0;
         right: 0;
         background-color: $bg-8;
+        z-index: 1;
 
         .link {
             @include flex(flex-start, $gap: 5px);
-            width: 100%;
             max-width: 1000px;
+            width: 100%;
             height: 50px;
             color: $mid;
             transition: 0.2s;
@@ -114,7 +115,7 @@ const isExpanded = ref(false);
                 color: $fg;
             }
 
-            &.active {
+            &.router-link-active {
                 color: $fg;
             }
 
@@ -168,7 +169,7 @@ const isExpanded = ref(false);
 }
 
 @media screen and (max-width: 650px) {
-    .navLeft {
+    .nav-left {
         .toggle {
             display: flex;
         }

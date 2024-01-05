@@ -1,15 +1,15 @@
 <template>
-    <div class='main loaderCnt'>
-        <div class='loader' />
-        <div class='slot'>
-            <slot />
+    <div class='my-loader'>
+        <div class='loader'></div>
+        <div class='loader-slot'>
+            <slot></slot>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'Loader',
+    name: 'MyLoader',
 };
 </script>
 
@@ -17,8 +17,9 @@ export default {
 @import '@/styles/vars';
 @import '@/styles/mixins';
 
-.loaderCnt {
+.my-loader {
     @include flex($dir: column);
+    flex-grow: 1;
 
     .loader {
         width: 48px;
@@ -39,7 +40,7 @@ export default {
         }
     }
 
-    .slot {
+    .loader-slot {
         margin-top: 12px;
         color: $mid-75;
     }

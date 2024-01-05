@@ -1,21 +1,26 @@
 <template>
-    <div class='wrapper'>
-        <form class='form' @submit.prevent='signup'>
-            <h1 class='title'>Sign Up</h1>
-            <Input v-for='field in fields' v-bind='field' :key='field.id' @update:value='field.value = $event'
-                @reset:error='field.error = $event' />
-            <Button :isSubmitting='isSubmitting'>
-                Sign Up
-            </Button>
-            <div class='error' v-if='error'>{{ error }}</div>
-            <AuthProviders />
-        </form>
-    </div>
+    <main class='main'>
+        <div class='wrapper' v-if='!isAuth'>
+            <form class='form' @submit.prevent='signup'>
+                <h1 class='title'>Sign Up</h1>
+                <MyInputWrapper v-for='field in fields' :key='field.id' :error='field.error'>
+                    <MyInput v-bind='field' @update:value='field.value = $event' @reset:error='field.error = $event' />
+                </MyInputWrapper>
+                <MyButton :isSubmitting='isSubmitting'>
+                    Sign Up
+                </MyButton>
+                <MyError :error='error' />
+                <MyAuthProviders />
+            </form>
+        </div>
+        <MyLoader v-else />
+    </main>
 </template>
 
 <script setup>
-import { useSubmit } from '@/composables/useSubmit';
 import { ref } from 'vue';
+import { useSubmit } from '@/composables/useSubmit';
+import { useAuth } from '@/composables/useAuth';
 
 const fields = ref([
     {
@@ -39,12 +44,19 @@ const fields = ref([
     },
 ]);
 
+const isAuth = ref(false);
 const isSubmitting = ref(false);
 const error = ref(null);
 
+isAuth.value = useAuth(isAuth.value, { redirectIfFail: false });
+
 async function signup() {
     isSubmitting.value = true;
-    error.value = await useSubmit(fields.value, '/signup', { redirect: true });
+    const { err } = await useSubmit(
+        fields.value, '/signup',
+        { redirect: true },
+    );
+    error.value = err;
     isSubmitting.value = false;
 }
 </script>

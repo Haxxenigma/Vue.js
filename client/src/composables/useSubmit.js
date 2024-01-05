@@ -1,6 +1,5 @@
-import { ref } from 'vue';
+import router from '@/router';
 import axios from '@/utils/axios';
-import router from '@/router/router';
 
 const methods = {
     POST: axios.post,
@@ -9,31 +8,52 @@ const methods = {
     GET: axios.get,
 };
 
-export async function useSubmit(fields, url, { method = 'POST', headers = {}, redirect = false, redirectUrl }) {
-    const data = ref({});
-    const error = ref(null);
-    fields.forEach((f) => data.value[f.id] = f.value);
+export async function useSubmit(payload, url, {
+    method = 'POST',
+    headers = {},
+    redirectUrl = null,
+    redirect = false,
+    refresh = true,
+}) {
+    let body = {};
+    let data = null;
+    let err = null;
 
-    try {
-        const res = await methods[method](
-            url,
-            !['DELETE', 'GET'].includes(method)
-                ? data.value
-                : { params: data.value },
-            { headers },
-        );
-        res.data.token && localStorage.setItem('token', res.data.token);
-        res.data.message && sessionStorage.setItem('popup', res.data.message);
-        redirect && router.replace(redirectUrl ? redirectUrl : `/user/${res.data.name}`);
-        setTimeout(() => {
-            router.go(0);
-        }, 100);
-    } catch (err) {
-        document.querySelector(`input#${err.response?.data[0]?.path}`)?.focus();
-        const errorField = fields.find((elem) => elem.id === err.response?.data[0]?.path);
-        if (errorField) errorField['error'] = err.response.data[0].msg;
-        else error.value = err.response?.data.message;
+    const valid = Boolean(Array.isArray(payload));
+    if (valid) {
+        payload.forEach((item) => body[item.id] = item.value);
+    } else {
+        body = payload;
     }
 
-    return error.value;
+    try {
+        data = (await methods[method](
+            url,
+            !['DELETE', 'GET'].includes(method)
+                ? body : { params: body },
+            { headers },
+        )).data;
+
+        if (data.token) localStorage.setItem('token', data.token);
+        if (data.message) sessionStorage.setItem('popup', data.message);
+
+        if (redirectUrl) router.replace(redirectUrl);
+        else if (redirect) router.replace(data.redirect);
+
+        if (refresh) {
+            setTimeout(() => {
+                router.go(0);
+            }, 100);
+        }
+    } catch (e) {
+        document.querySelector(`input#${e.response?.data[0]?.path}`)?.focus();
+        let errorField = null;
+        if (valid) {
+            errorField = payload.find((item) => item.id === e.response?.data[0]?.path);
+        }
+        if (errorField) errorField['error'] = e.response.data[0].msg;
+        else err = e.response?.data.message;
+    }
+
+    return { data, err };
 }

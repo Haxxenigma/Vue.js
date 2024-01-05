@@ -1,8 +1,10 @@
 @import '@/styles/vars';
 @import '@/styles/mixins';
 
-.button {
+.my-button,
+.my-link {
     @include flex($gap: 5px);
+    width: max-content;
     padding: 6px 16px;
     color: $primary-8;
     background-color: $primary-01;

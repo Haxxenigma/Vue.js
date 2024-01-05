@@ -3,13 +3,13 @@
         <hr />Continue with
         <hr />
     </div>
-    <div class='providers'>
-        <Button type='button' class='white' @click='redirectGoogle'>
+    <div class='my-auth-providers'>
+        <MyButton type='button' class='white' @click='redirectGoogle'>
             <img src='@/assets/google.svg' width='25' />Google
-        </Button>
-        <Button type='button' class='white' @click='redirectGithub'>
+        </MyButton>
+        <MyButton type='button' class='white' @click='redirectGithub'>
             <img src='@/assets/github.svg' width='25' />GitHub
-        </Button>
+        </MyButton>
     </div>
 </template>
 
@@ -17,9 +17,9 @@
 import { genGoogleUrl, genGithubUrl } from '@/utils/genUrl';
 
 export default {
-    name: 'AuthProviders',
+    name: 'MyAuthProviders',
     methods: {
-        async redirectGoogle() {
+        redirectGoogle() {
             window.location.href = genGoogleUrl();
         },
         redirectGithub() {
@@ -48,11 +48,11 @@ export default {
     }
 }
 
-.providers {
+.my-auth-providers {
     @include flex(space-between, $gap: 25px);
     width: 100%;
 
-    .button {
+    .my-button {
         margin-top: 15px;
         width: 100%;
     }

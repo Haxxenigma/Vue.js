@@ -9,30 +9,47 @@
         font-size: 28px;
     }
 
-    .field {
+    .my-input-ext-wrapper {
         margin-top: 15px;
     }
 
     .container {
         @include flex($gap: 25px);
+        margin-top: 25px;
 
         .buttons {
             @include flex(flex-start, $gap: 30px);
             flex-basis: 80%;
-            margin-top: 45px;
+            margin-top: 25px;
         }
 
-        .error {
+        .my-error {
             flex-basis: 80%;
-            padding: 2px 0;
-            color: $red;
-            text-shadow: 0 0 5px $fg-2;
-            font-size: 14px;
         }
 
         .label {
             order: -1;
             flex-basis: 20%;
+            color: $primary;
+            text-align: end;
+            pointer-events: none;
+            transition: 0.2s;
+
+            &.danger {
+                color: $red;
+            }
         }
+
+        .buttonCnt {
+            flex-basis: 80%;
+        }
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .form .container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
     }
 }

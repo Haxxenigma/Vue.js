@@ -1,21 +1,31 @@
-import Button from './Button';
-import Link from './Link';
-import Input from './Input';
-import InputExt from './InputExt';
-import Upload from './Upload';
-import Modal from './Modal';
-import Loader from './Loader';
-import Error from './Error';
-import AuthProviders from './AuthProviders';
+import MyButton from './MyButton';
+import MyLink from './MyLink';
+import MyInput from './MyInput';
+import MyInputWrapper from './MyInputWrapper';
+import MyInputExt from './MyInputExt';
+import MyInputExtWrapper from './MyInputExtWrapper';
+import MyTextarea from './MyTextarea';
+import MyModal from './MyModal';
+import MyLoader from './MyLoader';
+import MyError from './MyError';
+import MyUpload from './MyUpload';
+import MyUploadExt from './MyUploadExt';
+import MyToolbar from './MyToolbar';
+import MyAuthProviders from './MyAuthProviders';
 
 export default [
-    Button,
-    Link,
-    Input,
-    InputExt,
-    Upload,
-    Modal,
-    Loader,
-    Error,
-    AuthProviders,
+    MyButton,
+    MyLink,
+    MyInput,
+    MyInputWrapper,
+    MyInputExt,
+    MyInputExtWrapper,
+    MyTextarea,
+    MyModal,
+    MyLoader,
+    MyError,
+    MyUpload,
+    MyUploadExt,
+    MyToolbar,
+    MyAuthProviders,
 ];

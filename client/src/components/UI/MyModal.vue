@@ -1,22 +1,20 @@
 <template>
-    <div>
-        <div class='modal' @click='closeModal'>
-            <div class='content' @click.stop>
-                <div class='message'>
-                    <slot name='message' />
-                </div>
-                <slot />
-                <div class='buttons'>
-                    <slot name='buttons'>
-                        <Button type='button' class='white' @click='closeModal'>
-                            <X size='20' />
-                            <slot name='no'>No!</slot>
-                        </Button>
-                        <Button type='button' :isSubmitting='isSubmitting' @click='$emit("onClick")'>
-                            <slot name='yes'>Yes!</slot>
-                        </Button>
-                    </slot>
-                </div>
+    <div class='my-modal' @click='closeModal'>
+        <div class='content' @click.stop>
+            <div class='message'>
+                <slot name='message'></slot>
+            </div>
+            <slot></slot>
+            <div class='buttons'>
+                <slot name='buttons'>
+                    <MyButton type='button' class='white' @click='closeModal'>
+                        <X size='20' />
+                        <slot name='no'>No!</slot>
+                    </MyButton>
+                    <MyButton type='button' :isSubmitting='isSubmitting' @click='$emit("onClick")'>
+                        <slot name='yes'>Yes!</slot>
+                    </MyButton>
+                </slot>
             </div>
         </div>
     </div>
@@ -28,9 +26,9 @@ import { X } from 'lucide-vue-next';
 
 <script>
 export default {
-    name: 'Modal',
+    name: 'MyModal',
     props: ['closeModal', 'isSubmitting'],
-    emits: ['onClick']
+    emits: ['onClick'],
 };
 </script>
 
@@ -38,7 +36,7 @@ export default {
 @import '@/styles/vars';
 @import '@/styles/mixins';
 
-.modal {
+.my-modal {
     @include flex();
     position: fixed;
     top: 0;
@@ -58,6 +56,7 @@ export default {
         .message {
             color: $mid-75;
             text-align: center;
+            padding-bottom: 15px;
         }
 
         .buttons {

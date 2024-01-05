@@ -1,21 +1,22 @@
 <template>
     <form class='form' @submit.prevent='update'>
         <h2 class='title'>Password</h2>
-        <InputExt v-for='field in fields' v-bind='field' :key='field.id' @update:value='field.value = $event'
-            @reset:error='field.error = $event' />
+        <MyInputExtWrapper v-for='field in fields' :key='field.id' :error='field.error'>
+            <MyInputExt v-bind='field' @update:value='field.value = $event' @reset:error='field.error = $event' />
+        </MyInputExtWrapper>
         <div class='container'>
             <div class='buttons'>
-                <Button :isSubmitting='isSubmitting'>
+                <MyButton :isSubmitting='isSubmitting'>
                     Save
-                </Button>
-                <Link class='white' :path='"/users/" + store.state.userData.name'>
-                <X size='20' />Cancel
-                </Link>
+                </MyButton>
+                <MyLink class='white' :to='"/users/" + store.state.user.name'>
+                    <X size='20' />Cancel
+                </MyLink>
             </div>
             <div class='label'></div>
         </div>
         <div class='container'>
-            <div class='error' v-if='error'>{{ error }}</div>
+            <MyError :error='error' />
             <div class='label'></div>
         </div>
     </form>
@@ -25,7 +26,7 @@
 import { useSubmit } from '@/composables/useSubmit';
 import { X } from 'lucide-vue-next';
 import { ref } from 'vue';
-import store from '@/store/store';
+import store from '@/store';
 
 const fields = ref([
     {
@@ -56,9 +57,12 @@ const error = ref(null);
 
 async function update() {
     isSubmitting.value = true;
-    error.value = await useSubmit(
-        fields.value, `/users/${store.state.userData.name}/password`, { method: 'PATCH' },
+    const { err } = await useSubmit(
+        fields.value,
+        `/users/${store.state.user.name}/password`,
+        { method: 'PATCH' },
     );
+    error.value = err;
     isSubmitting.value = false;
 }
 </script>

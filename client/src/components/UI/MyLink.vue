@@ -1,13 +1,13 @@
 <template>
-    <RouterLink :to='path' class='button'>
-        <slot />
+    <RouterLink class='my-link' :to='to'>
+        <slot></slot>
     </RouterLink>
 </template>
 
 <script>
 export default {
-    name: 'Link',
-    props: ['path'],
+    name: 'MyLink',
+    props: ['to'],
 };
 </script>
 

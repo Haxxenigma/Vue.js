@@ -1,6 +1,12 @@
 import jwt from 'jsonwebtoken';
 
-export default function getToken(userId) {
-    const token = jwt.sign({ id: userId }, process.env.JWT_KEY, { expiresIn: '7d' });
+export default function getToken(name) {
+    const token = jwt.sign(
+        { name },
+        process.env.JWT_KEY,
+        {
+            expiresIn: '2d',
+        },
+    );
     return token;
 }

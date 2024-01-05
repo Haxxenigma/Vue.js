@@ -27,9 +27,9 @@ export const signup = async (req, res) => {
             },
         });
 
-        const token = getToken(user.id);
+        const token = getToken(user.name);
         return res.json({
-            token, name: user.name,
+            token, redirect: `/user/${user.name}`,
             message: `You have successfully signed in as ${user.name}`,
         });
     } catch (err) {
@@ -47,9 +47,9 @@ export const signin = async (req, res) => {
         });
 
         if (user && await compare(req.body.password, user.password)) {
-            const token = getToken(user.id);
+            const token = getToken(user.name);
             return res.json({
-                token, name: user.name,
+                token, redirect: `/user/${user.name}`,
                 message: `You have successfully signed in as ${user.name}`,
             });
         }

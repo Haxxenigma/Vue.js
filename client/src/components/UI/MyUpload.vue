@@ -1,13 +1,13 @@
 <template>
-    <form class='upload'>
-        <div class='imageCnt'>
-            <img class='image' :src='$store.state.userData.image' />
+    <form class='my-upload'>
+        <div class='image-cnt'>
+            <img class='image' :src='$store.state.user.image' />
         </div>
-        <div class='dropdownWrapper' v-if='isDropdownOpen' @click='isDropdownOpen = false'></div>
-        <div class='dropdownCnt'>
-            <Button type='button' class='toggle' @click='isDropdownOpen = !isDropdownOpen'>
+        <div class='dropdown-wrapper' v-if='isDropdownOpen' @click='isDropdownOpen = false'></div>
+        <div class='dropdown-cnt'>
+            <MyButton type='button' class='toggle' @click='isDropdownOpen = !isDropdownOpen'>
                 <Edit size='18' />Edit
-            </Button>
+            </MyButton>
             <div class='dropdown' :class='{ active: isDropdownOpen }'>
                 <label :for='id' class='btn'>
                     <Upload size='18' />Upload
@@ -19,16 +19,17 @@
             </div>
         </div>
 
-        <Modal v-if='isModalOpen' :closeModal='closeModal' :isSubmitting='isSubmitting' @onClick='uploadImage'>
+        <MyModal v-if='isModalOpen' :closeModal='closeModal' :isSubmitting='isSubmitting' @onClick='uploadImage'>
             <template #message>Are you sure you want to update your profile image?</template>
-            <div class='imageCnt'>
+            <div class='image-cnt'>
                 <img class='image' :src='blob' />
             </div>
-        </Modal>
+        </MyModal>
 
-        <Modal v-if='isDeleteModalOpen' :closeModal='closeDeleteModal' :isSubmitting='isSubmitting' @onClick='deleteImage'>
+        <MyModal v-if='isDeleteModalOpen' :closeModal='closeDeleteModal' :isSubmitting='isSubmitting'
+            @onClick='deleteImage'>
             <template #message>Are you sure you want to delete your profile image?</template>
-        </Modal>
+        </MyModal>
     </form>
 </template>
 
@@ -37,7 +38,7 @@ import { Edit, Upload, Trash, X } from 'lucide-vue-next';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import axios from '@/utils/axios';
-import store from '@/store/store';
+import store from '@/store';
 
 const router = useRouter();
 const isSubmitting = ref(false);
@@ -45,7 +46,7 @@ const isDropdownOpen = ref(false);
 const isModalOpen = ref(false);
 const isDeleteModalOpen = ref(false);
 const blob = ref(null);
-const input = ref(null);
+const input = ref();
 
 function setBlob(e) {
     blob.value = e.target.files[0] ? URL.createObjectURL(e.target.files[0]) : null;
@@ -71,7 +72,7 @@ async function uploadImage() {
         isSubmitting.value = true;
         const formData = new FormData();
         formData.append('image', input.value.files[0]);
-        const res = await axios.post(`/users/${store.state.userData.name}/image`, formData, {
+        const res = await axios.post(`/users/${store.state.user.name}/image`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -93,7 +94,7 @@ async function uploadImage() {
 async function deleteImage() {
     try {
         isSubmitting.value = true;
-        const res = await axios.delete(`/users/${store.state.userData.name}/image`);
+        const res = await axios.delete(`/users/${store.state.user.name}/image`);
         sessionStorage.setItem('popup', res.data.message);
         setTimeout(() => {
             router.go(0);
@@ -111,7 +112,7 @@ async function deleteImage() {
 
 <script>
 export default {
-    name: 'Upload',
+    name: 'MyUpload',
     props: ['id'],
 };
 </script>
@@ -120,28 +121,17 @@ export default {
 @import '@/styles/vars';
 @import '@/styles/mixins';
 
-.upload {
+.my-upload {
     flex-basis: 80%;
     position: relative;
 
-    .modal {
-        .imageCnt {
-            @include flex();
-            width: 120px;
-            height: 120px;
-            margin-top: 25px;
-            border: 1px solid $primary;
-            border-radius: 50%;
-            overflow: hidden;
-
-            .image {
-                width: 100%;
-                height: auto;
-            }
+    .my-modal {
+        .image-cnt {
+            margin-top: 10px;
         }
     }
 
-    .imageCnt {
+    .image-cnt {
         @include flex();
         width: 120px;
         height: 120px;
@@ -155,7 +145,7 @@ export default {
         }
     }
 
-    .dropdownWrapper {
+    .dropdown-wrapper {
         position: fixed;
         top: 0;
         left: 0;
@@ -163,7 +153,7 @@ export default {
         bottom: 0;
     }
 
-    .dropdownCnt {
+    .dropdown-cnt {
         position: absolute;
         top: 75%;
         left: 0;

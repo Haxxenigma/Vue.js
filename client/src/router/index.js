@@ -5,20 +5,23 @@ import Blog from '@/views/Blog';
 import Signin from '@/views/Signin';
 import Signup from '@/views/Signup';
 import Settings from '@/views/Settings';
-import SetGeneral from '@/views/SetGeneral';
-import SetPassword from '@/views/SetPassword';
-import SetAdvanced from '@/views/SetAdvanced';
+import SettingsGeneral from '@/views/SettingsGeneral';
+import SettingsPassword from '@/views/SettingsPassword';
+import SettingsAdvanced from '@/views/SettingsAdvanced';
 import User from '@/views/User';
 import NotFound from '@/views/NotFound';
-import GoogleOAuth from '@/views/GoogleOAuth';
-import GithubOAuth from '@/views/GithubOAuth';
+import OAuth from '@/views/OAuth';
+import OAuthGoogle from '@/views/OAuthGoogle';
+import OAuthGithub from '@/views/OAuthGithub';
+import ArticleForm from '@/views/ArticleForm';
+import Article from '@/views/Article';
 
 const routes = [
     {
         path: '/',
         name: 'home',
         component: Home,
-        alias: '/home'
+        alias: '/home',
     },
     {
         path: '/about',
@@ -48,35 +51,55 @@ const routes = [
             {
                 path: '',
                 name: 'settings-general',
-                component: SetGeneral,
+                component: SettingsGeneral,
             },
             {
                 path: 'password',
                 name: 'settings-password',
-                component: SetPassword,
+                component: SettingsPassword,
             },
             {
                 path: 'advanced',
                 name: 'settings-advanced',
-                component: SetAdvanced,
+                component: SettingsAdvanced,
             },
         ],
     },
     {
         path: '/oauth/google',
         name: 'oauth-google',
-        component: GoogleOAuth,
+        component: OAuthGoogle,
+    },
+    {
+        path: '/oauth',
+        name: 'oauth',
+        component: OAuth,
     },
     {
         path: '/oauth/github',
         name: 'oauth-github',
-        component: GithubOAuth,
+        component: OAuthGithub,
     },
     {
         path: '/user/:name',
         name: 'user',
         component: User,
         alias: ['/users/:name', '/profile/:name'],
+    },
+    {
+        path: '/articles/:id',
+        name: 'articles',
+        component: Article,
+    },
+    {
+        path: '/articles/create',
+        name: 'articles-create',
+        component: ArticleForm,
+    },
+    {
+        path: '/articles/:id/edit',
+        name: 'articles-update',
+        component: ArticleForm,
     },
     {
         path: '/:pathMatch(.*)*',
